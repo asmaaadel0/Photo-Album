@@ -1,5 +1,5 @@
 <template>
-  <TheForm/>
+  <TheForm :categories="['asmaa', 'lamiaa']"/>
 </template>
 
 <script>
