@@ -1,15 +1,11 @@
 <template>
-  <TheForm :categories="['asmaa', 'lamiaa']"/>
+  <router-view></router-view>
 </template>
 
 <script>
-import TheForm from './components/TheForm.vue'
 
 export default {
   name: 'App',
-  components: {
-    TheForm
-  }
 }
 </script>
 
