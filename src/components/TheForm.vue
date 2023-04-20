@@ -37,7 +37,7 @@
     />
     <div v-if="!file & error" class="error">Choose file</div>
     <div class="submit">
-      <button @click="handleSubmit()">Submit</button>
+      <button class="button btn" @click="handleSubmit()">Submit</button>
     </div>
     <div v-if="errorResponse" class="error">{{ errorResponse }}</div>
   </form>
@@ -98,7 +98,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
+<style scoped>
 form {
   max-width: 420px;
   margin: 30px auto;
@@ -148,13 +148,28 @@ input:focus {
   cursor: pointer;
 }
 
-button {
-  background: #0b6dff;
+.btn {
+  background-color: #c69963;
+  color: #fff;
+  border: none;
+  border-radius: 0;
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 1rem;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  
   border: 0;
   padding: 10px 20px;
   margin-top: 20px;
   color: white;
   border-radius: 20px;
+}
+.btn:hover,
+.add-photo:hover {
+  background-color: #b28451;
+  color: #fff;
 }
 
 .submit {
