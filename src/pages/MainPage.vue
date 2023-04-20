@@ -32,35 +32,9 @@
             </div>
           </div>
           <div class="col-9 homes">
-            <div class="home">
-              <img
-                src="../imgs/nature-images.jpg"
-                alt="house 1"
-                class="home__img"
-              />
-              <h5 class="home__name">Category: Home</h5>
-
-              <button class="btn home__btn">View</button>
-            </div>
-
-            <div class="home">
-              <img
-                src="../imgs/nature-images.jpg"
-                alt="house 1"
-                class="home__img"
-              />
-              <h5 class="home__name">Description</h5>
-
-              <button class="btn home__btn">View</button>
-            </div>
-
-            <div class="home">
-              <img
-                src="../imgs/nature-images.jpg"
-                alt="house 1"
-                class="home__img"
-              />
-              <h5 class="home__name">Description</h5>
+            <div class="home" v-for="photo in listOfPhotos" :key="photo">
+              <img :src="photo.file" alt="photo" class="home__img" />
+              <h5 class="home__name">Category: {{ photo.description }}</h5>
 
               <button class="btn home__btn">View</button>
             </div>
@@ -86,6 +60,7 @@ export default {
   beforeMount() {
     this.choosenCategory = this.categories[0];
     this.loadListOfPhotos();
+    this.loadCategories();
   },
   computed: {
     categories() {
@@ -114,6 +89,21 @@ export default {
             });
           }
           this.listOfPhotos = results;
+        })
+        .catch((error) => {
+          this.errorResponse =
+            "Failed to fetch data - please try again later" || error;
+        });
+    },
+    loadCategories() {
+      fetch("https://photo-album-2fcd4-default-rtdb.firebaseio.com")
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          }
+        })
+        .then((data) => {
+          console.log(data);
         })
         .catch((error) => {
           this.errorResponse =
