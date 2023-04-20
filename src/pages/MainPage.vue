@@ -1,8 +1,10 @@
 <template>
   <div>
-    <div v-if="listOfPhotos">
+    <div v-if="listOfPhotos.length == 0">
       <div class="no-images">No Photos Yet</div>
-      <button class="button">Click To add photos</button>
+      <button class="button btnn" @click="$router.push('/form')">
+        Add photos
+      </button>
     </div>
     <div v-else>
       <div class="container text-center">
@@ -77,18 +79,15 @@ export default {
   data() {
     return {
       errorResponse: null,
-      listOfPhotos: false,
+      listOfPhotos: [],
       choosenCategory: "",
     };
   },
   beforeMount() {
     this.choosenCategory = this.categories[0];
-    console.log(this.choosenCategory);
+    this.loadListOfPhotos();
   },
   computed: {
-    // listOfPhotos() {
-    //   return this.$store.getters["listOfPhotos"];
-    // },
     categories() {
       return ["asmaa", "lamiaa", "Adel"];
     },
@@ -96,6 +95,30 @@ export default {
   methods: {
     changeCategory(category) {
       this.choosenCategory = category;
+    },
+    loadListOfPhotos() {
+      fetch("https://photo-album-2fcd4-default-rtdb.firebaseio.com/Travel.json")
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          }
+        })
+        .then((data) => {
+          const results = [];
+          for (const id in data) {
+            results.push({
+              id: id,
+              description: data[id].description,
+              category: data[id].category,
+              file: data[id].file,
+            });
+          }
+          this.listOfPhotos = results;
+        })
+        .catch((error) => {
+          this.errorResponse =
+            "Failed to fetch data - please try again later" || error;
+        });
     },
   },
 };
@@ -211,8 +234,26 @@ export default {
   transition: all 0.2s;
 }
 .btn:hover,
-.add-photo:hover {
+.add-photo:hover,
+.btnn:hover {
   background-color: #b28451;
   color: #fff;
+}
+.btnn {
+  background-color: #c69963;
+  color: #fff;
+  border: none;
+  border-radius: 0;
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 1rem;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  border: 0;
+  padding: 10px 20px;
+  margin-top: 20px;
+  color: white;
+  border-radius: 20px;
 }
 </style>

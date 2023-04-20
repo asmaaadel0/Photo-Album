@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="handleSubmit">
+  <form @submit.prevent="handleSubmit()">
     <label for="description">description:</label>
     <input
       type="text"
@@ -30,6 +30,7 @@
     <label for="image">Image file:</label>
     <input
       type="file"
+      accept="image/jpg, image/jpeg, image/png"
       name="image"
       id="image"
       @change="onChangeFile"
@@ -37,7 +38,7 @@
     />
     <div v-if="!file & error" class="error">Choose file</div>
     <div class="submit">
-      <button class="button btn" @click="handleSubmit()">Submit</button>
+      <button class="button btn">Submit</button>
     </div>
     <div v-if="errorResponse" class="error">{{ errorResponse }}</div>
   </form>
@@ -57,7 +58,7 @@ export default {
   },
   methods: {
     onChangeFile(event) {
-      this.file = event.target.files[0];
+      this.file = URL.createObjectURL( event.target.files[0])
       // this.$emit("update:modelValue", event.target.files[0]);
     },
     async handleSubmit() {
@@ -76,21 +77,32 @@ export default {
       } else {
         category = this.choosenCategory;
       }
-      try {
-        await this.$store.dispatch("addImage", {
-          description: this.description,
-          category: category,
-          file: this.file,
-          baseurl: this.$baseurl,
-        });
-        if (this.$store.getters["addedSuccessfully"]) {
-          this.hideAddRule();
-          this.$emit("doneSuccessfully");
+      fetch(
+        "https://photo-album-2fcd4-default-rtdb.firebaseio.com/" +
+          category +
+          ".json",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            description: this.description,
+            category: category,
+            file: this.file,
+          }),
         }
-      } catch (err) {
-        console.log(err);
-        this.errorResponse = err;
-      }
+      )
+        .then((response) => {
+          if (response.ok) {
+            this.$router.push("/");
+          } else {
+            throw new Error("could not save data!");
+          }
+        })
+        .catch((error) => {
+          this.errorResponse = error.message;
+        });
     },
   },
   props: ["categories"],
@@ -159,15 +171,13 @@ input:focus {
   cursor: pointer;
   transition: all 0.2s;
 
-  
   border: 0;
   padding: 10px 20px;
   margin-top: 20px;
   color: white;
   border-radius: 20px;
 }
-.btn:hover,
-.add-photo:hover {
+.btn:hover {
   background-color: #b28451;
   color: #fff;
 }
