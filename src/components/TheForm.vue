@@ -15,9 +15,13 @@
       name="category"
       id="category"
       v-model="choosenCategory"
-      :disabled="newCategory != ''"
+      @change="onChangeSelect"
     >
-      <option :value="category" v-for="category in categories" :key="category">
+      <option
+        :value="category.category"
+        v-for="category in categories"
+        :key="category"
+      >
         {{ category.category }}
       </option>
     </select>
@@ -71,13 +75,20 @@ export default {
       this.file = URL.createObjectURL(event.target.files[0]);
       // this.$emit("update:modelValue", event.target.files[0]);
     },
+    onChangeSelect() {
+      console.log(this.choosenCategory);
+      this.newCategory = "";
+      console.log(this.choosenCategory);
+    },
     onChangeInput() {
+      if (this.newCategory == "") {
+        return;
+      }
       this.choosenCategory = "";
       for (let i = 0; i < this.categories.length; i++) {
         if (this.categories[i].category == this.newCategory) {
           this.sameCategory = true;
-        }
-        else {
+        } else {
           this.sameCategory = false;
         }
       }

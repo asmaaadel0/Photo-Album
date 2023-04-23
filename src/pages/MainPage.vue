@@ -83,7 +83,7 @@ export default {
         this.listOfPhotos = this.allPhotos;
       } else {
         for (let i = 0; i < this.categories.length; i++) {
-          if (this.categories[i].category == category) {
+          if (this.arrayResults[i][0].category == category) {
             this.listOfPhotos = this.arrayResults[i];
           }
         }
