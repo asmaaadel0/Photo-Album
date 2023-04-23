@@ -66,8 +66,10 @@ export default {
               };
 
               this.photo = result;
+              return;
             }
           }
+          this.$router.push("/error");
         })
         .catch((error) => {
           this.errorResponse =
