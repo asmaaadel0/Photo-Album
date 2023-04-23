@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="listOfPhotos.length == 0">
+    <div v-if="categories.length == 0">
       <div class="no-images">No Photos Yet</div>
       <button class="button btnn" @click="$router.push('/form')">
         Add photos
@@ -68,42 +68,67 @@ export default {
       listOfPhotos: [],
       choosenCategory: "All",
       categories: [],
+      arrayResults: [],
+      allPhotos: [],
     };
   },
-  beforeMount() {
+  async beforeMount() {
+    await this.loadCategories();
     this.loadListOfPhotos();
-    this.loadCategories();
   },
   methods: {
     changeCategory(category) {
       this.choosenCategory = category;
+      if (this.choosenCategory == "All") {
+        this.listOfPhotos = this.allPhotos;
+      } else {
+        for (let i = 0; i < this.categories.length; i++) {
+          if (this.categories[i].category == category) {
+            this.listOfPhotos = this.arrayResults[i];
+          }
+        }
+      }
     },
     loadListOfPhotos() {
-      fetch("https://photo-album-2fcd4-default-rtdb.firebaseio.com/Travel.json")
-        .then((response) => {
-          if (response.ok) {
-            return response.json();
-          }
-        })
-        .then((data) => {
-          const results = [];
-          for (const id in data) {
-            results.push({
-              id: id,
-              description: data[id].description,
-              category: data[id].category,
-              file: data[id].file,
-            });
-          }
-          this.listOfPhotos = results;
-        })
-        .catch((error) => {
-          this.errorResponse =
-            "Failed to fetch data - please try again later" || error;
-        });
+      let results = [];
+      for (let i = 0; i < this.categories.length; i++) {
+        fetch(
+          "https://photo-album-2fcd4-default-rtdb.firebaseio.com/" +
+            this.categories[i].category +
+            ".json"
+        )
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            }
+          })
+          .then((data) => {
+            results = [];
+            for (const id in data) {
+              results.push({
+                id: id,
+                description: data[id].description,
+                category: data[id].category,
+                file: data[id].file,
+              });
+              this.allPhotos.push({
+                id: id,
+                description: data[id].description,
+                category: data[id].category,
+                file: data[id].file,
+              });
+            }
+            this.arrayResults.push(results);
+          })
+          .catch((error) => {
+            this.errorResponse =
+              "Failed to fetch data - please try again later" || error;
+          });
+        this.listOfPhotos = this.allPhotos;
+      }
     },
-    loadCategories() {
-      fetch(
+    async loadCategories() {
+      await fetch(
         "https://photo-album-2fcd4-default-rtdb.firebaseio.com/categories.json"
       )
         .then((response) => {

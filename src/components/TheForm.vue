@@ -74,7 +74,7 @@ export default {
     onChangeInput() {
       this.choosenCategory = "";
       for (let i = 0; i < this.categories.length; i++) {
-        if (this.categories[0].category == this.newCategory) {
+        if (this.categories[i].category == this.newCategory) {
           this.sameCategory = true;
         }
         else {
