@@ -56,13 +56,20 @@
 
               <!-- <button class="btn home__btn">View</button> -->
               <div class="card" style="width: 18rem">
-                <img src="../imgs/OIP.jpg" class="card-img-top" alt="photo" />
+                <img :src="photo.file" class="card-img-top" alt="photo" />
                 <div class="card-body">
                   <h5 class="card-title">Category:</h5>
                   <p class="card-text">
                     {{ photo.category }}
                   </p>
-                  <button class="btn home__btn">View</button>
+                  <button
+                    class="btn home__btn"
+                    @click="
+                      $router.push('/photo/' + photo.category + '/' + photo.id)
+                    "
+                  >
+                    View
+                  </button>
                 </div>
               </div>
             </div>
@@ -223,7 +230,6 @@ export default {
 }
 
 .home {
-
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-row-gap: 1rem;

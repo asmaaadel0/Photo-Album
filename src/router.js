@@ -15,7 +15,7 @@ const router = createRouter({
             component: MainPage,
         },
         { path: '/form', component: FormPage },
-        { path: '/PhotoPage', component: PhotoPage },
+        { path: '/photo/:category/:id/', component: PhotoPage },
         { path: '/:notFound(.*)', component: NotFound },
     ],
 });

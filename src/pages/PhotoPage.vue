@@ -15,11 +15,8 @@
     </figure> -->
 
     <div class="common slidedown">
-      <img src="../imgs/R.jpg" alt="Image Caption Slidedown" />
-      <div class="pic-caption">
-        Description:
-        o.categoryphoto.categoryphoto.categoryphoto.categoryphoto.categoryphoto.categoryphoto.categoryphoto.categorycategoryphoto.categoryphoto.category
-      </div>
+      <img :src="photo.file" alt="Image Caption Slidedown" />
+      <div class="pic-caption">Description: {{ photo.description }}</div>
     </div>
     <button class="btn home__btn" @click="$router.push('/main')">
       Go Back
@@ -29,7 +26,55 @@
 
 <script>
 export default {
-  
+  data() {
+    return {
+      photo: [],
+    };
+  },
+  computed: {
+    category() {
+      return this.$route.params.category;
+    },
+    id() {
+      return this.$route.params.id;
+    },
+  },
+  beforeMount() {
+    this.loadPhoto();
+  },
+  methods: {
+    loadPhoto() {
+      let result = [];
+      fetch(
+        "https://photo-album-2fcd4-default-rtdb.firebaseio.com/" +
+          this.category +
+          ".json"
+      )
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          }
+        })
+        .then((data) => {
+          for (const id in data) {
+            if (this.id == id) {
+              result = {
+                id: id,
+                description: data[id].description,
+                category: data[id].category,
+                file: data[id].file,
+              };
+
+              this.photo = result;
+            }
+          }
+        })
+        .catch((error) => {
+          this.errorResponse =
+            "Failed to fetch data - please try again later" || error;
+        });
+    },
+  },
 };
 </script>
 
@@ -76,6 +121,7 @@ export default {
   transition: all 0.5s;
   line-height: 30px;
   font-size: 16px;
+  padding: 2rem 0;
 }
 
 img {
