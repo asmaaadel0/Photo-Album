@@ -10,19 +10,23 @@
     />
     <div v-if="!description & error" class="error">Add description!</div>
 
-    <label for="category">Select a category:</label>
+    <label for="category" v-if="categories.length != 0"
+      >Select a category:</label
+    >
     <select
       name="category"
       id="category"
       v-model="choosenCategory"
       @change="newCategory = ''"
+      v-if="categories.length != 0"
     >
       <option :value="category" v-for="category in categories" :key="category">
         {{ category.category }}
       </option>
     </select>
 
-    <label for="newCategory">Or Create new one:</label>
+    <label for="newCategory" v-if="categories.length != 0">Or Create new one:</label>
+    <label for="newCategory" v-else>Create new one:</label>
     <input
       type="text"
       name="newCategory"
