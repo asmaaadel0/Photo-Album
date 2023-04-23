@@ -17,8 +17,20 @@
                 class="list-group-item list-group-item-action"
                 aria-current="true"
                 :class="{
-                  active: choosenCategory == category,
-                  buttons: choosenCategory != category,
+                  active: choosenCategory == 'All',
+                  buttons: choosenCategory != 'All',
+                }"
+                @click="changeCategory('All')"
+              >
+                All
+              </button>
+              <button
+                type="button"
+                class="list-group-item list-group-item-action"
+                aria-current="true"
+                :class="{
+                  active: choosenCategory == category.category,
+                  buttons: choosenCategory != category.category,
                 }"
                 v-for="category in categories"
                 :key="category"
@@ -54,12 +66,11 @@ export default {
     return {
       errorResponse: null,
       listOfPhotos: [],
-      choosenCategory: "",
+      choosenCategory: "All",
       categories: [],
     };
   },
   beforeMount() {
-    this.choosenCategory = this.categories[0];
     this.loadListOfPhotos();
     this.loadCategories();
   },
@@ -157,7 +168,7 @@ export default {
   grid-column: center-start / center-end;
 
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
   grid-gap: 2rem;
 }
 

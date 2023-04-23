@@ -30,6 +30,9 @@
       v-model="newCategory"
       @input="onChangeInput"
     />
+    <div v-if="sameCategory" class="error">
+      There exist category with same name .
+    </div>
     <div v-if="!choosenCategory & !newCategory & error" class="error">
       Choose Category or add new one...
     </div>
@@ -60,6 +63,7 @@ export default {
       choosenCategory: "",
       newCategory: "",
       errorResponse: null,
+      sameCategory: false,
     };
   },
   methods: {
@@ -69,12 +73,21 @@ export default {
     },
     onChangeInput() {
       this.choosenCategory = "";
+      for (let i = 0; i < this.categories.length; i++) {
+        if (this.categories[0].category == this.newCategory) {
+          this.sameCategory = true;
+        }
+        else {
+          this.sameCategory = false;
+        }
+      }
     },
     async handleSubmit() {
       if (
         !this.description ||
         !this.choosenCategory & !this.newCategory ||
-        !this.file
+        !this.file ||
+        this.sameCategory
       ) {
         this.error = true;
         return;
