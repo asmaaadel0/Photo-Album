@@ -11,9 +11,14 @@
     <div v-if="!description & error" class="error">Add description!</div>
 
     <label for="category">Select a category:</label>
-    <select name="category" id="category" v-model="choosenCategory">
+    <select
+      name="category"
+      id="category"
+      v-model="choosenCategory"
+      :disabled="newCategory != ''"
+    >
       <option :value="category" v-for="category in categories" :key="category">
-        {{ category }}
+        {{ category.category }}
       </option>
     </select>
 
@@ -23,6 +28,7 @@
       name="newCategory"
       id="newCategory"
       v-model="newCategory"
+      @input="onChangeInput"
     />
     <div v-if="!choosenCategory & !newCategory & error" class="error">
       Choose Category or add new one...
@@ -58,8 +64,11 @@ export default {
   },
   methods: {
     onChangeFile(event) {
-      this.file = URL.createObjectURL( event.target.files[0])
+      this.file = URL.createObjectURL(event.target.files[0]);
       // this.$emit("update:modelValue", event.target.files[0]);
+    },
+    onChangeInput() {
+      this.choosenCategory = "";
     },
     async handleSubmit() {
       if (
@@ -74,8 +83,30 @@ export default {
       let category = "";
       if (this.newCategory) {
         category = this.newCategory;
+        fetch(
+          "https://photo-album-2fcd4-default-rtdb.firebaseio.com/categories.json",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              category: category,
+            }),
+          }
+        )
+          .then((response) => {
+            if (response.ok) {
+              //
+            } else {
+              throw new Error("could not save data!");
+            }
+          })
+          .catch((error) => {
+            this.errorResponse = error.message;
+          });
       } else {
-        category = this.choosenCategory;
+        category = this.choosenCategory.category;
       }
       fetch(
         "https://photo-album-2fcd4-default-rtdb.firebaseio.com/" +
@@ -191,5 +222,10 @@ input:focus {
   margin-top: 10px;
   font-size: 0.8em;
   font-weight: bold;
+}
+
+select:disabled {
+  cursor: not-allowed;
+  opacity: 1;
 }
 </style>

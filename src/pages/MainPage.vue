@@ -22,9 +22,9 @@
                 }"
                 v-for="category in categories"
                 :key="category"
-                @click="changeCategory(category)"
+                @click="changeCategory(category.category)"
               >
-                {{ category }}
+                {{ category.category }}
               </button>
               <button class="add-photo" @click="$router.push('/form')">
                 Add Photo
@@ -34,7 +34,7 @@
           <div class="col-9 homes">
             <div class="home" v-for="photo in listOfPhotos" :key="photo">
               <img :src="photo.file" alt="photo" class="home__img" />
-              <h5 class="home__name">Category: {{ photo.description }}</h5>
+              <h5 class="home__name">Category: {{ photo.category }}</h5>
 
               <button class="btn home__btn">View</button>
             </div>
@@ -55,17 +55,13 @@ export default {
       errorResponse: null,
       listOfPhotos: [],
       choosenCategory: "",
+      categories: [],
     };
   },
   beforeMount() {
     this.choosenCategory = this.categories[0];
     this.loadListOfPhotos();
     this.loadCategories();
-  },
-  computed: {
-    categories() {
-      return ["asmaa", "lamiaa", "Adel"];
-    },
   },
   methods: {
     changeCategory(category) {
@@ -96,14 +92,23 @@ export default {
         });
     },
     loadCategories() {
-      fetch("https://photo-album-2fcd4-default-rtdb.firebaseio.com")
+      fetch(
+        "https://photo-album-2fcd4-default-rtdb.firebaseio.com/categories.json"
+      )
         .then((response) => {
           if (response.ok) {
             return response.json();
           }
         })
         .then((data) => {
-          console.log(data);
+          const results = [];
+          for (const id in data) {
+            results.push({
+              id: id,
+              category: data[id].category,
+            });
+          }
+          this.categories = results;
         })
         .catch((error) => {
           this.errorResponse =
