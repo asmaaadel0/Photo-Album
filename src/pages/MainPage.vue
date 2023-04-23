@@ -44,6 +44,12 @@
             </div>
           </div>
           <div class="col-9 homes">
+            <div v-if="loading">
+              <the-spinner
+                style="position: absolute; left: 50%; top: 50%"
+              ></the-spinner>
+            </div>
+
             <div class="home" v-for="photo in listOfPhotos" :key="photo">
               <img :src="photo.file" alt="photo" class="home__img" />
               <h5 class="home__name">Category: {{ photo.category }}</h5>
@@ -61,7 +67,11 @@
 </template>
 
 <script>
+import TheSpinner from "../components/TheSpinner.vue";
 export default {
+  components: {
+    TheSpinner,
+  },
   data() {
     return {
       errorResponse: null,
@@ -70,14 +80,18 @@ export default {
       categories: [],
       arrayResults: [],
       allPhotos: [],
+      loading: false,
     };
   },
   async beforeMount() {
+    this.loading = true;
     await this.loadCategories();
-    this.loadListOfPhotos();
+    await this.loadListOfPhotos();
+    this.loading = false;
   },
   methods: {
     changeCategory(category) {
+      this.loading = true;
       this.choosenCategory = category;
       if (this.choosenCategory == "All") {
         this.listOfPhotos = this.allPhotos;
@@ -88,6 +102,7 @@ export default {
           }
         }
       }
+      this.loading = false;
     },
     loadListOfPhotos() {
       let results = [];
