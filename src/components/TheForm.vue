@@ -15,7 +15,7 @@
       name="category"
       id="category"
       v-model="choosenCategory"
-      @change="onChangeSelect"
+      @change="newCategory = ''"
     >
       <option :value="category" v-for="category in categories" :key="category">
         {{ category.category }}
@@ -72,9 +72,6 @@ export default {
       // this.$emit("update:modelValue", event.target.files[0]);
     },
     onChangeInput() {
-      if (this.newCategory == "") {
-        return;
-      }
       this.choosenCategory = "";
       for (let i = 0; i < this.categories.length; i++) {
         if (this.categories[i].category == this.newCategory) {
