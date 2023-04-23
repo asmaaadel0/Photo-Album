@@ -13,8 +13,12 @@
         photo.categoryphoto.categoryphoto.categoryphoto.categoryphoto.categoryphoto.categoryphotophoto.categoryphoto.categoryphoto.categoryphoto.categoryphoto.categoryphoto.categoryphoto.categoryphoto.categoryphoto.categorycategoryphoto.categoryphoto.category
       </figcaption>
     </figure> -->
-
-    <div class="common slidedown">
+    <div v-if="loading">
+      <the-spinner
+        style="position: absolute; left: 50%; top: 50%"
+      ></the-spinner>
+    </div>
+    <div v-else class="common slidedown">
       <img :src="photo.file" alt="Image Caption Slidedown" />
       <div class="pic-caption">Description: {{ photo.description }}</div>
     </div>
@@ -25,10 +29,15 @@
 </template>
 
 <script>
+import TheSpinner from "../components/TheSpinner.vue";
 export default {
+  components: {
+    TheSpinner,
+  },
   data() {
     return {
       photo: [],
+      loading: false,
     };
   },
   computed: {
@@ -39,13 +48,15 @@ export default {
       return this.$route.params.id;
     },
   },
-  beforeMount() {
-    this.loadPhoto();
+  async beforeMount() {
+    this.loading = true;
+    await this.loadPhoto();
+    this.loading = false;
   },
   methods: {
-    loadPhoto() {
+    async loadPhoto() {
       let result = [];
-      fetch(
+      await fetch(
         "https://photo-album-2fcd4-default-rtdb.firebaseio.com/" +
           this.category +
           ".json"

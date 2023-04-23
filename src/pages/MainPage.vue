@@ -1,10 +1,13 @@
 <template>
   <div>
-    <div v-if="categories.length == 0">
+    <div v-if="loading">
+      <the-spinner
+        style="position: absolute; left: 50%; top: 50%"
+      ></the-spinner>
+    </div>
+    <div v-else-if="categories.length == 0">
       <div class="no-images">No Photos Yet</div>
-      <button class="btn" @click="$router.push('/form')">
-        Add photos
-      </button>
+      <button class="btn" @click="$router.push('/form')">Add photos</button>
     </div>
     <div v-else>
       <div class="container text-center">
@@ -121,10 +124,10 @@ export default {
       }
       this.loading = false;
     },
-    loadListOfPhotos() {
+    async loadListOfPhotos() {
       let results = [];
       for (let i = 0; i < this.categories.length; i++) {
-        fetch(
+        await fetch(
           "https://photo-album-2fcd4-default-rtdb.firebaseio.com/" +
             this.categories[i].category +
             ".json"

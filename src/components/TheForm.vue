@@ -5,7 +5,6 @@
       type="text"
       name="description"
       id="description"
-      required
       v-model="description"
     />
     <div v-if="!description & error" class="error">Add description!</div>
@@ -25,7 +24,9 @@
       </option>
     </select>
 
-    <label for="newCategory" v-if="categories.length != 0">Or Create new one:</label>
+    <label for="newCategory" v-if="categories.length != 0"
+      >Or Create new one:</label
+    >
     <label for="newCategory" v-else>Create new one:</label>
     <input
       type="text"
@@ -47,7 +48,6 @@
       name="image"
       id="image"
       @change="onChangeFile"
-      required
     />
     <div v-if="!file & error" class="error">Choose file</div>
     <div class="submit">
@@ -86,12 +86,10 @@ export default {
       }
     },
     async handleSubmit() {
-      if (
-        !this.description ||
-        !this.choosenCategory & !this.newCategory ||
-        !this.file ||
-        this.sameCategory
-      ) {
+      if (!this.description || !this.file || this.sameCategory) {
+        this.error = true;
+        return;
+      } else if (!this.choosenCategory & !this.newCategory) {
         this.error = true;
         return;
       }
@@ -99,7 +97,7 @@ export default {
       let category = "";
       if (this.newCategory) {
         category = this.newCategory;
-        fetch(
+        await fetch(
           "https://photo-album-2fcd4-default-rtdb.firebaseio.com/categories.json",
           {
             method: "POST",
@@ -124,7 +122,7 @@ export default {
       } else {
         category = this.choosenCategory.category;
       }
-      fetch(
+      await fetch(
         "https://photo-album-2fcd4-default-rtdb.firebaseio.com/" +
           category +
           ".json",
