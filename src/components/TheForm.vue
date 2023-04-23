@@ -47,7 +47,7 @@
     />
     <div v-if="!file & error" class="error">Choose file</div>
     <div class="submit">
-      <button class="button btn">Submit</button>
+      <button class="btn">Submit</button>
     </div>
     <div v-if="errorResponse" class="error">{{ errorResponse }}</div>
   </form>
@@ -204,25 +204,11 @@ input:focus {
 }
 
 .btn {
-  background-color: #c69963;
-  color: #fff;
-  border: none;
-  border-radius: 0;
-  font-family: "Josefin Sans", sans-serif;
-  font-size: 1rem;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: all 0.2s;
-
   border: 0;
   padding: 10px 20px;
   margin-top: 20px;
   color: white;
   border-radius: 20px;
-}
-.btn:hover {
-  background-color: #b28451;
-  color: #fff;
 }
 
 .submit {

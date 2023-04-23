@@ -6,7 +6,7 @@
       </div>
       <div>
         <button
-          class="button"
+          class="btn"
           id="go-home"
           @click="$router.push('/')"
         >
@@ -19,7 +19,7 @@
 <script>
 export default {};
 </script>
-<style scoped>
+<style>
 .not-found-user-page-container {
   display: flex;
   align-items: center;
@@ -32,5 +32,23 @@ export default {};
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+.btn {
+  background-color: #810000;
+  color: #fff;
+  border: none;
+  border-radius: 2px;
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 1rem;
+  text-transform: uppercase;
+  padding: 0.5rem 1.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn:hover,
+.add-photo:hover,
+.btnn:hover {
+  background-color: #b00101;
+  color: #fff;
 }
 </style>

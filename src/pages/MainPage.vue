@@ -2,7 +2,7 @@
   <div>
     <div v-if="categories.length == 0">
       <div class="no-images">No Photos Yet</div>
-      <button class="button btnn" @click="$router.push('/form')">
+      <button class="btn" @click="$router.push('/form')">
         Add photos
       </button>
     </div>
@@ -38,7 +38,7 @@
               >
                 {{ category.category }}
               </button>
-              <button class="add-photo" @click="$router.push('/form')">
+              <button class="btn" @click="$router.push('/form')">
                 Add Photo
               </button>
             </div>
@@ -212,15 +212,6 @@ export default {
 .active:hover {
   background-color: black;
 }
-.add-photo {
-  border-radius: 0%;
-  margin-top: 2rem;
-  background-color: #c69963;
-  color: white;
-  padding: 0.5rem;
-  border: none;
-  outline: none;
-}
 .homes {
   grid-column: center-start / center-end;
 
@@ -243,20 +234,6 @@ export default {
   z-index: 1;
 }
 
-.home__like {
-  grid-row: 1 / 2;
-  grid-column: 2 / 3;
-
-  fill: #c69963;
-  height: 1rem;
-  width: 1rem;
-
-  z-index: 2;
-
-  justify-self: end;
-  margin: 1rem;
-}
-
 .home__name {
   grid-row: 1 / 2;
   grid-column: 1 / -1;
@@ -273,48 +250,5 @@ export default {
   color: #fff;
   font-weight: 400;
   transform: translateY(50%);
-}
-
-.home__location,
-.home__rooms {
-  margin-top: 2.5rem;
-}
-.home__btn {
-  grid-column: 1 / -1;
-}
-.btn {
-  background-color: #c69963;
-  color: #fff;
-  border: none;
-  border-radius: 2px;
-  font-family: "Josefin Sans", sans-serif;
-  font-size: 1rem;
-  text-transform: uppercase;
-  padding: 0.5rem 1.5rem;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-.btn:hover,
-.add-photo:hover,
-.btnn:hover {
-  background-color: #b28451;
-  color: #fff;
-}
-.btnn {
-  background-color: #c69963;
-  color: #fff;
-  border: none;
-  border-radius: 0;
-  font-family: "Josefin Sans", sans-serif;
-  font-size: 1rem;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: all 0.2s;
-
-  border: 0;
-  padding: 10px 20px;
-  margin-top: 20px;
-  color: white;
-  border-radius: 20px;
 }
 </style>
