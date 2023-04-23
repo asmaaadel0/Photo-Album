@@ -34,21 +34,21 @@ export default {};
   justify-content: center;
 }
 .btn {
-  background-color: #810000;
+  background-color: #9b3333;
   color: #fff;
   border: none;
   border-radius: 2px;
   font-family: "Josefin Sans", sans-serif;
   font-size: 1rem;
   text-transform: uppercase;
-  padding: 0.5rem 1.5rem;
+  padding: 0.3rem 2rem;
   cursor: pointer;
   transition: all 0.2s;
 }
 .btn:hover,
 .add-photo:hover,
 .btnn:hover {
-  background-color: #b00101;
+  background-color: #bc3131;
   color: #fff;
 }
 </style>
