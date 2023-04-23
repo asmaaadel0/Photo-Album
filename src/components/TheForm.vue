@@ -22,7 +22,7 @@
       </option>
     </select>
 
-    <label for="newCategory">Create new category:</label>
+    <label for="newCategory">Or Create new one:</label>
     <input
       type="text"
       name="newCategory"

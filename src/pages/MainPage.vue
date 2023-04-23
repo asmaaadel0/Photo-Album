@@ -51,10 +51,20 @@
             </div>
 
             <div class="home" v-for="photo in listOfPhotos" :key="photo">
-              <img :src="photo.file" alt="photo" class="home__img" />
-              <h5 class="home__name">Category: {{ photo.category }}</h5>
+              <!-- <img :src="photo.file" alt="photo" class="home__img" />
+              <h5 class="home__name">Category: {{ photo.category }}</h5> -->
 
-              <button class="btn home__btn">View</button>
+              <!-- <button class="btn home__btn">View</button> -->
+              <div class="card" style="width: 18rem">
+                <img src="../imgs/OIP.jpg" class="card-img-top" alt="photo" />
+                <div class="card-body">
+                  <h5 class="card-title">Category:</h5>
+                  <p class="card-text">
+                    {{ photo.category }}
+                  </p>
+                  <button class="btn home__btn">View</button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -213,7 +223,6 @@ export default {
 }
 
 .home {
-  background-color: #f9f7f6;
 
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -271,11 +280,11 @@ export default {
   background-color: #c69963;
   color: #fff;
   border: none;
-  border-radius: 0;
+  border-radius: 2px;
   font-family: "Josefin Sans", sans-serif;
   font-size: 1rem;
   text-transform: uppercase;
-  padding: 1rem 1rem;
+  padding: 0.5rem 1.5rem;
   cursor: pointer;
   transition: all 0.2s;
 }
