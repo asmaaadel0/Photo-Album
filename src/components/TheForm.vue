@@ -47,7 +47,6 @@
       accept="image/jpg, image/jpeg, image/png, image/JPG"
       name="image"
       id="image"
-      class="input-file"
       @change="onChangeFile"
     />
     <div v-if="!file & error" class="error">Choose file</div>
@@ -252,8 +251,5 @@ input:focus {
 select:disabled {
   cursor: not-allowed;
   opacity: 1;
-}
-.input-file {
-  background-color: #9b3333;
 }
 </style>
