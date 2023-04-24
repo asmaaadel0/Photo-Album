@@ -8,7 +8,7 @@
 - [Contributors <a name = "Contributors"></a>](#contributors-)
 
 ## About <a name = "about"></a>
-- Simple photo gallery to Upload your media images and store them with description and then you will be able to search images by categories, I use firebase to store  data, and add some animation for the website. I implement the website using Vue js, and deploy it using vercel.
+- Simple photo gallery to Upload your media images and store them with description and then you will be able to search images by categories, I use firebase to store  data, add some animation for the website, and there is a spinner when the data are loading . I implement the website using Vue js, and deploy it using vercel.
 - I add some validation to the input when anyone try to add new image:
   - If category already exists, you cann't create new one with same name.
   - you cann't submit the form without description, category, or upload image
