@@ -44,9 +44,10 @@
     <label for="image">Image file:</label>
     <input
       type="file"
-      accept="image/jpg, image/jpeg, image/png"
+      accept="image/jpg, image/jpeg, image/png, image/JPG"
       name="image"
       id="image"
+      class="input-file"
       @change="onChangeFile"
     />
     <div v-if="!file & error" class="error">Choose file</div>
@@ -64,6 +65,7 @@ export default {
       description: "",
       error: false,
       file: "",
+      fileUrl: "",
       choosenCategory: "",
       newCategory: "",
       errorResponse: null,
@@ -72,8 +74,31 @@ export default {
   },
   methods: {
     onChangeFile(event) {
-      this.file = URL.createObjectURL(event.target.files[0]);
-      // this.$emit("update:modelValue", event.target.files[0]);
+      const file = event.target.files[0];
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.fileUrl = reader.result;
+      };
+      reader.readAsDataURL(file);
+      // const files = event.target.files;
+      // // this.file = URL.createObjectURL(event.target.files[0]);
+      // const fileReader = new FileReader();
+      // fileReader.addEventListener(
+      //   "load",
+      //   () => {
+      //     // convert image file to base64 string
+      //     this.fileUrl = fileReader.result;
+      //   },
+      //   false
+      // );
+
+      // if (this.fileUrl) {
+      //   fileReader.readAsDataURL(this.fileUrl);
+      // }
+      // fileReader.readAsDataURL(files[0]);
+      // this.file = files[0];
+      // console.log(this.fileUrl);
+      // // this.$emit("update:modelValue", event.target.files[0]);
     },
     onChangeInput() {
       this.choosenCategory = "";
@@ -86,7 +111,7 @@ export default {
       }
     },
     async handleSubmit() {
-      if (!this.description || !this.file || this.sameCategory) {
+      if (!this.description || !this.fileUrl || this.sameCategory) {
         this.error = true;
         return;
       } else if (!this.choosenCategory & !this.newCategory) {
@@ -134,7 +159,7 @@ export default {
           body: JSON.stringify({
             description: this.description,
             category: category,
-            file: this.file,
+            file: this.fileUrl,
           }),
         }
       )
@@ -227,5 +252,8 @@ input:focus {
 select:disabled {
   cursor: not-allowed;
   opacity: 1;
+}
+.input-file {
+  background-color: #9b3333;
 }
 </style>

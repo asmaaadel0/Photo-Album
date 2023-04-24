@@ -41,7 +41,7 @@
               >
                 {{ category.category }}
               </button>
-              <button class="btn" @click="$router.push('/form')">
+              <button class="btn margin-top" @click="$router.push('/form')">
                 Add Photo
               </button>
             </div>
@@ -253,5 +253,8 @@ export default {
   color: #fff;
   font-weight: 400;
   transform: translateY(50%);
+}
+.margin-top {
+  margin-top: 5rem;
 }
 </style>
