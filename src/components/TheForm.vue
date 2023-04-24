@@ -27,7 +27,7 @@
     <label for="newCategory" v-if="categories.length != 0"
       >Or Create new one:</label
     >
-    <label for="newCategory" v-else>Create new one:</label>
+    <label for="newCategory" v-else>Create new Category:</label>
     <input
       type="text"
       name="newCategory"
