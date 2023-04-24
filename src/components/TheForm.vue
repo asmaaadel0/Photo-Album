@@ -49,7 +49,7 @@
       id="image"
       @change="onChangeFile"
     />
-    <div v-if="!file & error" class="error">Choose file</div>
+    <div v-if="!fileUrl & error" class="error">Choose file</div>
     <div class="submit">
       <button class="btn">Submit</button>
     </div>
@@ -63,7 +63,6 @@ export default {
     return {
       description: "",
       error: false,
-      file: "",
       fileUrl: "",
       choosenCategory: "",
       newCategory: "",
